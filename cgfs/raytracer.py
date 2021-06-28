@@ -1,10 +1,12 @@
 from cgfs.canvas import Canvas
+from cgfs.scene import Scene
 from cgfs.types import Ray
 from cgfs.viewport import Viewport
 
 
 class Raytracer:
-    def __init__(self, canvas: Canvas, viewport: Viewport):
+    def __init__(self, scene: Scene, canvas: Canvas, viewport: Viewport):
+        self._scene = scene
         self._canvas = canvas
         self._viewport = viewport
         self._camera_pos = (0, 0, 0)
@@ -17,9 +19,10 @@ class Raytracer:
 
     def _ray(self, x: int, y: int) -> Ray:
         return (self._camera_pos,
-                (x * self._viewport.width // self._canvas.width,
-                 y * self._viewport.height // self._canvas.height,
+                (x * self._viewport.width / self._canvas.width,
+                 y * self._viewport.height / self._canvas.height,
                  self._viewport.distance))
 
     def _trace(self, ray: Ray, t_min: int, t_max: int):
-        pass
+        for obj in self._scene.scene_objects:
+            pass

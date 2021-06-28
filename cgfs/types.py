@@ -1,4 +1,5 @@
 from typing import Tuple
 
-Ray = Tuple[Tuple[int, int, int], Tuple[int, int, int]]
+Point = Tuple[float, float, float]
+Ray = Tuple[Point, Point]
 Color = Tuple[int, int, int]

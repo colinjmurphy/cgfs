@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from cgfs.types import Ray, Color
+from cgfs.types import Color, Ray
 
 
 class SceneObject(ABC):
