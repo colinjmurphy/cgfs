@@ -1,9 +1,6 @@
-from typing import Tuple
-
 from cgfs.canvas import Canvas
+from cgfs.types import Ray
 from cgfs.viewport import Viewport
-
-Ray = Tuple[Tuple[int, int, int], Tuple[int, int, int]]
 
 
 class Raytracer:

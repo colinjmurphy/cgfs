@@ -1,5 +1,14 @@
-from abc import ABC
+from abc import ABC, abstractmethod
+
+from cgfs.types import Ray, Color
 
 
 class SceneObject(ABC):
-    def intersect(self:):
+    @abstractmethod
+    @property
+    def color(self) -> Color:
+        pass
+
+    @abstractmethod
+    def intersect(self, ray: Ray):
+        pass

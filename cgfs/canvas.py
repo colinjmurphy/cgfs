@@ -1,4 +1,4 @@
-from cgfs.color import Color
+from cgfs.types import Color
 
 
 class Canvas:
@@ -13,9 +13,8 @@ class Canvas:
 
     def put_pixel(self, x: int, y: int, color: Color):
         canvas_index = self._array_index(x, y)
-        color_bytes = bytes(color)
         for i in range(self.PIXEL_WIDTH):
-            self._byte_array[canvas_index + i] = color_bytes[i]
+            self._byte_array[canvas_index + i] = color[i]
 
     def _array_index(self, x: int, y: int) -> int:
         assert -self.half_width <= x <= self.half_width
