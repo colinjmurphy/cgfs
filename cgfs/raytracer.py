@@ -16,11 +16,10 @@ class Raytracer:
         self._camera_pos = (0, 0, 0)
 
     def render(self):
-        for y in range(-self._canvas.half_height, self._canvas.half_height):
-            for x in range(-self._canvas.half_width, self._canvas.half_width):
-                ray = self._ray(x, y)
-                color = self._trace(ray, 1, inf)
-                self._canvas.put_pixel(x, y, color)
+        for x, y, i in self._canvas.pixel_iterator():
+            ray = self._ray(x, y)
+            color = self._trace(ray, 1, inf)
+            self._canvas.put_pixel(i, color)
 
     def _ray(self, x: int, y: int) -> Ray:
         return (self._camera_pos,
