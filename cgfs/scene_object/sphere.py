@@ -1,5 +1,5 @@
 from math import inf, sqrt
-from typing import Tuple, Optional
+from typing import Optional, Iterable
 
 from cgfs.cgfs_types import Ray, Color, Point
 from cgfs.scene_object import SceneObject
@@ -8,20 +8,11 @@ from cgfs.utils import sub, dot, normalize
 
 class Sphere(SceneObject):
     def __init__(self, location: Point, radius: float, color: Color, specular: Optional[float] = None):
+        super().__init__(color, specular)
         self._location = location
         self._radius = radius
-        self._color = color
-        self._specular = specular
 
-    @property
-    def color(self) -> Color:
-        return self._color
-
-    @property
-    def specular(self) -> float:
-        return self._specular
-
-    def intersect(self, ray: Ray) -> Tuple[float, float]:
+    def intersect(self, ray: Ray) -> Iterable[float]:
         d = ray[1]
         co = sub(ray[0], self._location)
 

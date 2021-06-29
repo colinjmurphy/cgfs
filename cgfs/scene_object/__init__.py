@@ -1,22 +1,24 @@
 from abc import ABC, abstractmethod
-from typing import Tuple
+from typing import Iterable
 
 from cgfs.cgfs_types import Color, Ray, Point, Vector
 
 
 class SceneObject(ABC):
+    def __init__(self, color: Color, specular: float):
+        self._color = color
+        self._specular = specular
+
     @property
-    @abstractmethod
     def color(self) -> Color:
-        pass
+        return self._color
 
     @property
-    @abstractmethod
     def specular(self) -> float:
-        pass
+        return self._specular
 
     @abstractmethod
-    def intersect(self, ray: Ray) -> Tuple[float, float]:
+    def intersect(self, ray: Ray) -> Iterable[float]:
         pass
 
     @abstractmethod
