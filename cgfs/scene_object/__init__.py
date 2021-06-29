@@ -10,6 +10,11 @@ class SceneObject(ABC):
     def color(self) -> Color:
         pass
 
+    @property
+    @abstractmethod
+    def specular(self) -> float:
+        pass
+
     @abstractmethod
     def intersect(self, ray: Ray) -> Tuple[float, float]:
         pass
