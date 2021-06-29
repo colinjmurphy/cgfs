@@ -1,10 +1,14 @@
+from math import inf
+
 from cgfs.canvas import Canvas
+from cgfs.cgfs_types import Ray, Color
 from cgfs.scene import Scene
-from cgfs.types import Ray
 from cgfs.viewport import Viewport
 
 
 class Raytracer:
+    BACKGROUND_COLOR: Color = (255, 255, 255)
+
     def __init__(self, scene: Scene, canvas: Canvas, viewport: Viewport):
         self._scene = scene
         self._canvas = canvas
@@ -15,7 +19,8 @@ class Raytracer:
         for y in range(-self._canvas.half_height, self._canvas.half_height):
             for x in range(-self._canvas.half_width, self._canvas.half_width):
                 ray = self._ray(x, y)
-                color = self._trace(ray, 1, 100000)
+                color = self._trace(ray, 1, inf)
+                self._canvas.put_pixel(x, y, color)
 
     def _ray(self, x: int, y: int) -> Ray:
         return (self._camera_pos,
@@ -23,6 +28,13 @@ class Raytracer:
                  y * self._viewport.height / self._canvas.height,
                  self._viewport.distance))
 
-    def _trace(self, ray: Ray, t_min: int, t_max: int):
+    def _trace(self, ray: Ray, t_min: float, t_max: float) -> Color:
+        closest_t = inf
+        closest_obj = None
         for obj in self._scene.scene_objects:
-            pass
+            for t in obj.intersect(ray):
+                if t_min <= t <= t_max and t < closest_t:
+                    closest_t = t
+                    closest_obj = obj
+
+        return closest_obj.color if closest_obj else self.BACKGROUND_COLOR
