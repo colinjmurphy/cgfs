@@ -11,4 +11,4 @@ class PointLight(Light):
     def illuminate(self, point: Point, normal: Vector) -> float:
         l = sub(self._location, point)
         n_dot_l = dot(normal, l)
-        return self._intensity * n_dot_l / (length(normal) * length(l))
+        return self._intensity * n_dot_l / length(l)
