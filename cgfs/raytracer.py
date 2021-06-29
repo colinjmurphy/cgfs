@@ -3,6 +3,7 @@ from math import inf
 from cgfs.canvas import Canvas
 from cgfs.cgfs_types import Ray, Color
 from cgfs.scene import Scene
+from cgfs.utils import scale, scale_color
 from cgfs.viewport import Viewport
 
 
@@ -36,4 +37,15 @@ class Raytracer:
                     closest_t = t
                     closest_obj = obj
 
-        return closest_obj.color if closest_obj else self.BACKGROUND_COLOR
+        if closest_obj:
+            point = scale(ray[1], closest_t)
+            normal = closest_obj.normal(point)
+
+            intensity = 0.0
+            for light in self._scene.lights:
+                intensity += light.illuminate(point, normal)
+
+            return scale_color(closest_obj.color, intensity)
+
+        else:
+            return self.BACKGROUND_COLOR

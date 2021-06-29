@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Tuple
 
-from cgfs.cgfs_types import Color, Ray
+from cgfs.cgfs_types import Color, Ray, Point, Vector
 
 
 class SceneObject(ABC):
@@ -12,4 +12,8 @@ class SceneObject(ABC):
 
     @abstractmethod
     def intersect(self, ray: Ray) -> Tuple[float, float]:
+        pass
+
+    @abstractmethod
+    def normal(self, point: Point) -> Vector:
         pass

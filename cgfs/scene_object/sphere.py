@@ -3,12 +3,12 @@ from typing import Tuple
 
 from cgfs.cgfs_types import Ray, Color, Point
 from cgfs.scene_object import SceneObject
-from cgfs.utils import sub, dot
+from cgfs.utils import sub, dot, normalize
 
 
 class Sphere(SceneObject):
-    def __init__(self, center: Point, radius: float, color: Color):
-        self._center = center
+    def __init__(self, location: Point, radius: float, color: Color):
+        self._location = location
         self._radius = radius
         self._color = color
 
@@ -18,7 +18,7 @@ class Sphere(SceneObject):
 
     def intersect(self, ray: Ray) -> Tuple[float, float]:
         d = ray[1]
-        co = sub(ray[0], self._center)
+        co = sub(ray[0], self._location)
 
         a = dot(d, d)
         b = 2 * dot(co, d)
@@ -32,3 +32,6 @@ class Sphere(SceneObject):
             t1 = (-b + sqrt_discriminant) / (2 * a)
             t2 = (-b - sqrt_discriminant) / (2 * a)
             return t1, t2
+
+    def normal(self, point: Point):
+        return normalize(sub(point, self._location))
