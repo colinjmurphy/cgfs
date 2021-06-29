@@ -17,8 +17,7 @@ def scale(a: Vector, scalar: float):
 
 
 def scale_color(a: Color, scalar: float):
-    scalar = max(min(scalar, 1), 0)
-    return int(a[0] * scalar), int(a[1] * scalar), int(a[2] * scalar)
+    return tuple(max(min(int(i * scalar), 255), 0) for i in a)
 
 
 def sub(a: Point, b: Point) -> Point:

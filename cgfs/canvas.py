@@ -10,6 +10,7 @@ class Canvas(ABC):
     def __init__(self, width: int, height: int):
         self.width = width
         self.height = height
+        self._pixel_count = width * height
 
     @abstractmethod
     def put_pixel(self, pixel_index: int, color: Color):
@@ -20,27 +21,33 @@ class Canvas(ABC):
         pass
 
 
-class PillowCanvas(Canvas):
-    PIXEL_WIDTH = 4
+class ByteArrayCanvas(Canvas):
+    COLOR_WIDTH = 3
+    PIXEL_WIDTH = 3
 
     def __init__(self, width: int, height: int):
         super().__init__(width, height)
         self._half_width = self.width // 2
         self._half_height = (self.height + 1) // 2
-
-        self._byte_array = bytearray(width * height * self.PIXEL_WIDTH)
-        self._image = Image.frombuffer('RGBA', (width, height), self._byte_array)
+        self._byte_array = bytearray(self._pixel_count * self.PIXEL_WIDTH)
 
     def put_pixel(self, pixel_index: int, color: Color):
         byte_index = pixel_index * self.PIXEL_WIDTH
-        for i in range(self.PIXEL_WIDTH - 1):
+        for i in range(self.COLOR_WIDTH):
             self._byte_array[byte_index + i] = color[i]
-        self._byte_array[byte_index + self.PIXEL_WIDTH - 1] = 255
 
     def pixel_iterator(self) -> Iterator[Tuple[int, int, int]]:
-        for i in range(self.width * self.height):
+        for i in range(self._pixel_count):
             y, x = divmod(i, self.width)
             yield x - self._half_width, self._half_height - y - 1, i
+
+
+class PillowCanvas(ByteArrayCanvas):
+    PIXEL_WIDTH = 4
+
+    def __init__(self, width: int, height: int):
+        super().__init__(width, height)
+        self._image = Image.frombuffer('RGBX', (width, height), self._byte_array)
 
     def show(self):
         self._image.show()
