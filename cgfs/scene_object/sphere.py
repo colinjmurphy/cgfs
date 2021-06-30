@@ -12,7 +12,7 @@ class Sphere(SceneObject):
         self._location = location
         self._radius = radius
 
-    def intersect(self, ray: Ray) -> Iterable[float]:
+    def intersect(self, ray: Ray, t_min: float = -inf, t_max: float = inf) -> Iterable[float]:
         d = ray[1]
         co = sub(ray[0], self._location)
 
@@ -21,13 +21,14 @@ class Sphere(SceneObject):
         c = dot(co, co) - self._radius * self._radius
 
         discriminant = b * b - 4 * a * c
-        if discriminant < 0:
-            return inf, inf
-        else:
+        if discriminant >= 0:
             sqrt_discriminant = sqrt(discriminant)
             t1 = (-b + sqrt_discriminant) / (2 * a)
+            if t_min <= t1 <= t_max:
+                yield t1
             t2 = (-b - sqrt_discriminant) / (2 * a)
-            return t1, t2
+            if t_min <= t2 <= t_max:
+                yield t2
 
     def normal(self, point: Point):
         return normalize(sub(point, self._location))

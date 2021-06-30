@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from math import inf
 from typing import Iterable
 
 from cgfs.cgfs_types import Color, Ray, Point, Vector
@@ -18,7 +19,7 @@ class SceneObject(ABC):
         return self._specular
 
     @abstractmethod
-    def intersect(self, ray: Ray) -> Iterable[float]:
+    def intersect(self, ray: Ray, t_min: float = -inf, t_max: float = inf) -> Iterable[float]:
         pass
 
     @abstractmethod

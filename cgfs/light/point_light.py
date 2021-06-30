@@ -1,7 +1,9 @@
+from typing import List
+
 from cgfs.cgfs_types import Point, Vector
 from cgfs.light import Light
 from cgfs.scene_object import SceneObject
-from cgfs.utils import dot, sub, length
+from cgfs.utils import dot, sub, length, EPSILON
 
 
 class PointLight(Light):
@@ -9,9 +11,16 @@ class PointLight(Light):
         super().__init__(intensity)
         self._location = location
 
-    def illuminate(self, point: Point, camera_direction: Vector, scene_object: SceneObject) -> float:
-        object_normal = scene_object.normal(point)
+    def illuminate(self, point: Point, camera_direction: Vector, scene_object: SceneObject,
+                   scene_objects: List[SceneObject]) -> float:
         light_direction = sub(self._location, point)
+        ray = (point, light_direction)
+        for obj in scene_objects:
+            for _ in obj.intersect(ray, EPSILON, 1):
+                # shadowed
+                return 0
+
+        object_normal = scene_object.normal(point)
         n_dot_l = dot(object_normal, light_direction)
 
         illumination = self._intensity * n_dot_l / length(light_direction)

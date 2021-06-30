@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from typing import List
 
 from cgfs.cgfs_types import Point, Vector
 from cgfs.scene_object import SceneObject
@@ -10,7 +11,8 @@ class Light:
         self._intensity = intensity
 
     @abstractmethod
-    def illuminate(self, point: Point, camera_direction: Vector, scene_object: SceneObject) -> float:
+    def illuminate(self, point: Point, camera_direction: Vector, scene_object: SceneObject,
+                   scene_objects: List[SceneObject]) -> float:
         pass
 
     def _specular(self, object_normal: Vector, light_direction: Vector, camera_direction: Vector,

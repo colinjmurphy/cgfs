@@ -32,8 +32,8 @@ class Raytracer:
         closest_t = inf
         closest_obj = None
         for obj in self._scene.scene_objects:
-            for t in obj.intersect(ray):
-                if t_min <= t <= t_max and t < closest_t:
+            for t in obj.intersect(ray, t_min, t_max):
+                if t < closest_t:
                     closest_t = t
                     closest_obj = obj
 
@@ -43,7 +43,7 @@ class Raytracer:
 
             intensity = 0.0
             for light in self._scene.lights:
-                intensity += light.illuminate(point, camera_direction, closest_obj)
+                intensity += light.illuminate(point, camera_direction, closest_obj, self._scene.scene_objects)
 
             return scale_color(closest_obj.color, intensity)
 

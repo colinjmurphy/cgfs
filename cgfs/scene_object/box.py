@@ -1,3 +1,4 @@
+from math import inf
 from typing import Iterable
 
 from cgfs.cgfs_types import Point, Vector, Ray, Color
@@ -10,7 +11,7 @@ class Box(SceneObject):
         self._corner_a = corner_a
         self._corner_b = corner_b
 
-    def intersect(self, ray: Ray) -> Iterable[float]:
+    def intersect(self, ray: Ray, t_min: float = -inf, t_max: float = inf) -> Iterable[float]:
         pass
 
     def normal(self, point: Point) -> Vector:
