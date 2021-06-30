@@ -22,6 +22,10 @@ def scale_color(a: Color, scalar: float):
     return tuple(max(min(int(i * scalar), 255), 0) for i in a)
 
 
+def add_color(a: Color, b: Color):
+    return tuple(max(min(i + j, 255), 0) for i, j in zip(a, b))
+
+
 def add(a: Point, b: Point) -> Point:
     return a[0] + b[0], a[1] + b[1], a[2] + b[2]
 
@@ -32,3 +36,11 @@ def sub(a: Point, b: Point) -> Point:
 
 def dot(a: Point, b: Point) -> float:
     return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
+
+
+def reflect(a: Vector, b: Vector) -> Vector:
+    return sub(scale(b, 2 * dot(b, a)), a)
+
+
+def negate(a: Vector) -> Vector:
+    return -a[0], -a[1], -a[2]

@@ -7,8 +7,9 @@ from cgfs.utils import sub, dot, normalize
 
 
 class Sphere(SceneObject):
-    def __init__(self, location: Point, radius: float, color: Color, specular: Optional[float] = None):
-        super().__init__(color, specular)
+    def __init__(self, location: Point, radius: float, color: Color, specular: Optional[float] = None,
+                 reflective: float = 0):
+        super().__init__(color, specular, reflective)
         self._location = location
         self._radius = radius
 

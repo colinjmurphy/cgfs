@@ -6,8 +6,8 @@ from cgfs.scene_object import SceneObject
 
 
 class Box(SceneObject):
-    def __init__(self, corner_a: Point, corner_b: Point, color: Color, specular: float):
-        super().__init__(color, specular)
+    def __init__(self, corner_a: Point, corner_b: Point, color: Color, specular: float, reflective: float):
+        super().__init__(color, specular, reflective)
         self._corner_a = corner_a
         self._corner_b = corner_b
 

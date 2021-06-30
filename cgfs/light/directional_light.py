@@ -26,7 +26,7 @@ class DirectionalLight(Light):
         illumination = max(self._intensity * n_dot_l, 0)
         if scene_object.specular is not None:
             illumination += max(
-                self._specular(object_normal, self._light_direction, camera_direction, scene_object.specular, n_dot_l), 0
+                self._specular(object_normal, self._light_direction, camera_direction, scene_object.specular), 0
             )
 
         return illumination

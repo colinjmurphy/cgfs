@@ -27,7 +27,7 @@ class PointLight(Light):
 
         if scene_object.specular is not None:
             illumination += max(
-                self._specular(object_normal, light_direction, camera_direction, scene_object.specular, n_dot_l), 0
+                self._specular(object_normal, light_direction, camera_direction, scene_object.specular), 0
             )
 
         return illumination
