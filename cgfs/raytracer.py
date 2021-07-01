@@ -1,33 +1,23 @@
 from math import inf
 
-from cgfs.canvas import Canvas
+from cgfs.camera import Camera
 from cgfs.cgfs_types import Ray, Color
 from cgfs.scene import Scene
 from cgfs.utils import scale, scale_color, sub, reflect, EPSILON, add_color, negate, add
-from cgfs.viewport import Viewport
 
 
 class Raytracer:
     # BACKGROUND_COLOR: Color = (255, 255, 255)
     BACKGROUND_COLOR: Color = (0, 0, 0)
 
-    def __init__(self, scene: Scene, canvas: Canvas, viewport: Viewport):
+    def __init__(self, scene: Scene, camera: Camera):
+        self._camera = camera
         self._scene = scene
-        self._canvas = canvas
-        self._viewport = viewport
-        self._camera_pos = (0, 0, 0)
 
     def render(self):
-        for x, y, i in self._canvas.pixel_iterator():
-            ray = self._ray(x, y)
-            color = self._trace(ray, 1, inf, 3)
-            self._canvas.put_pixel(i, color)
-
-    def _ray(self, x: int, y: int) -> Ray:
-        return (self._camera_pos,
-                (x * self._viewport.width / self._canvas.width,
-                 y * self._viewport.height / self._canvas.height,
-                 self._viewport.distance))
+        for i, ray in self._camera.ray_iterator():
+            color = self._trace(ray, 1, inf, recursion_depth=3)
+            self._camera.record_ray_color(i, color)
 
     def _trace(self, ray: Ray, t_min: float, t_max: float, recursion_depth: int) -> Color:
         closest_t = inf

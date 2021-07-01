@@ -1,3 +1,4 @@
+from cgfs.camera import Camera
 from cgfs.canvas import PillowCanvas
 from cgfs.light.ambient_light import AmbientLight
 from cgfs.light.directional_light import DirectionalLight
@@ -5,7 +6,6 @@ from cgfs.light.point_light import PointLight
 from cgfs.raytracer import Raytracer
 from cgfs.scene import Scene
 from cgfs.scene_object.sphere import Sphere
-from cgfs.viewport import Viewport
 
 scene = Scene()
 
@@ -28,9 +28,8 @@ scene.add_light(PointLight((2, 10, -5), .8))
 # scene.add_object(Sphere((0, -5001, 0), 5000, (255, 255, 0), specular=1000, reflective=.5))
 
 canvas = PillowCanvas(500, 500)
-viewport = Viewport(1, 1, 1)
 
-raytracer = Raytracer(scene, canvas, viewport)
+raytracer = Raytracer(scene, Camera(canvas, (0, 0, 0), 53))
 
 raytracer.render()
 canvas.show()
